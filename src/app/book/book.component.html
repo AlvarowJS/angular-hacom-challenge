@@ -1,1 +1,134 @@
-<p>book works!</p>
+<div class="container-fluid mt-4">
+
+    <!-- Buscador y botón -->
+    <div class="row justify-content-between mb-3">
+
+        <div class="col-md-5 d-flex gap-2">
+            <label class="mt-2" for="">Buscar: </label>
+            <input type="text" class="form-control" placeholder="Buscar por título..." [(ngModel)]="searchTerm"
+                (keyup.enter)="loadBooks()" />
+        </div>
+        <div class="col-md-5"></div>
+        <div class="col-md-2">
+            <button class="btn btn-primary w-100" (click)="abrirModal()">+ Nuevo Libro</button>
+        </div>
+    </div>
+
+    <!-- Tabla de libros -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Año</th>
+                    <th>Editorial</th>
+                    <th>Fecha</th>
+                    <th>Autor</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let libro of books">
+                    <td>{{ libro.id }}</td>
+                    <td>{{ libro.title }}</td>
+                    <td>{{ libro.description }}</td>
+                    <td>{{ libro.year }}</td>
+                    <td>{{ libro.publisher }}</td>
+                    <td>{{ libro.date }}</td>
+                    <td>{{ libro.author?.name }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning me-1" (click)="abrirModal(libro)">
+                            <i class='bx bx-edit'></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" (click)="eliminar(libro.id)">
+                            <i class='bx bx-trash'></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    <nav *ngIf="lastPage > 1">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="loadBooks(currentPage - 1)">Anterior</a>
+            </li>
+
+            <li class="page-item" *ngFor="let pagina of paginas()" [class.active]="pagina === currentPage">
+                <a class="page-link" (click)="loadBooks(pagina)">{{ pagina }}</a>
+            </li>
+
+            <li class="page-item" [class.disabled]="currentPage === lastPage">
+                <a class="page-link" (click)="loadBooks(currentPage + 1)">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal fade show" tabindex="-1" [ngClass]="{ 'd-block': showModal }"
+        style="background: rgba(0,0,0,0.5); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1050;"
+        *ngIf="selectedBook">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ selectedBook.id ? 'Editar Libro' : 'Nuevo Libro' }}</h5>
+                    <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título</label>
+                            <input type="text" id="title" class="form-control" [(ngModel)]="selectedBook.title"
+                                name="title">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descripción</label>
+                            <textarea id="description" class="form-control" [(ngModel)]="selectedBook.description"
+                                name="description"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="year" class="form-label">Año</label>
+                            <input type="text" id="year" class="form-control" [(ngModel)]="selectedBook.year"
+                                name="year">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="publisher" class="form-label">Editorial</label>
+                            <input type="text" id="publisher" class="form-control" [(ngModel)]="selectedBook.publisher"
+                                name="publisher">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Fecha</label>
+                            <input type="date" id="date" class="form-control" [(ngModel)]="selectedBook.date"
+                                name="date">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="author_id" class="form-label">Autor</label>
+                            <select id="author_id" class="form-control" [(ngModel)]="selectedBook.author_id"
+                                name="author_id">
+                                <option *ngFor="let autor of autores" [value]="autor.id">{{ autor.name }}</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+                    <button class="btn btn-primary" (click)="guardar()">Guardar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

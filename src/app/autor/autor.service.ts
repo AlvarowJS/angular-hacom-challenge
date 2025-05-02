@@ -7,7 +7,7 @@ import { Autor } from './autor.model';
   providedIn: 'root'
 })
 export class AutorService {
-  private apiUrl = 'http://127.0.0.1:8000/api/authors';
+  private apiUrl = 'http://161.132.37.212:82/api/authors';
 
   constructor(private http: HttpClient) {}
 

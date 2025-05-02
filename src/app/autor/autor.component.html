@@ -1,17 +1,19 @@
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4>Autores</h4>
-        <button class="btn btn-primary" (click)="abrirModal()">+ Nuevo Autor</button>
-    </div>
-
-    <div class="mb-3">
-        <input type="text" class="form-control" placeholder="Buscar autor por nombre..." [(ngModel)]="searchTerm"
+<div class="container-fluid mt-4">
+    <div class="row mb-3">
+        <div class="col-md-5 d-flex gap-2">
+            <label class="mt-2" for="">Buscar: </label>
+            <input type="text" class="col form-control" placeholder="Buscar autor por nombre..." [(ngModel)]="searchTerm"
             (keyup.enter)="cargarAutores()" />
+        </div>
+        <div class="col-md-5"></div>
+        <div class="col-md-2">
+            <button class="col btn btn-primary" (click)="abrirModal()">+ Nuevo Autor</button>
+        </div>
     </div>
 
 
     <div class="table-responsive">
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
@@ -28,8 +30,12 @@
                     <td>{{ autor?.name }}</td>
                     <td>{{ autor?.gender }}</td>
                     <td>
-                        <button class="btn btn-sm btn-info me-2" (click)="abrirModal(autor)">Editar</button>
-                        <button class="btn btn-sm btn-danger" (click)="eliminar(autor.id)">Eliminar</button>
+                        <button class="btn btn-sm btn-warning me-2" (click)="abrirModal(autor)">
+                            <i class='bx bx-edit'></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" (click)="eliminar(autor.id)">
+                            <i class='bx bx-trash'></i>
+                        </button>
                     </td>
                 </tr>
             </tbody>
@@ -45,9 +51,9 @@
 
             <li class="page-item pointer" *ngFor="let pagina of paginas()" [class.active]="pagina == currentPage">
                 <a class="page-link" (click)="cargarAutores(pagina)">
-                  {{ pagina }}
+                    {{ pagina }}
                 </a>
-              </li>
+            </li>
 
             <li class="page-item" [class.disabled]="currentPage === lastPage">
                 <a class="page-link" (click)="cargarAutores(currentPage + 1)">Siguiente</a>
@@ -66,17 +72,18 @@
                     </h5>
                     <button type="button" class="btn-close" (click)="cerrarModal()"></button>
                 </div>
-                <div class="modal-body">
+                <!-- Mostrar solo si selectedAutor no es null -->
+                <div class="modal-body" *ngIf="selectedAutor">
                     <form>
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre</label>
-                            <input type="text" id="name" class="form-control" [(ngModel)]="selectedAutor!.name"
+                            <input type="text" id="name" class="form-control" [(ngModel)]="selectedAutor.name"
                                 name="name" />
                         </div>
 
                         <div class="mb-3">
                             <label for="gender" class="form-label">Género</label>
-                            <select id="gender" class="form-control" [(ngModel)]="selectedAutor!.gender" name="gender">
+                            <select id="gender" class="form-control" [(ngModel)]="selectedAutor.gender" name="gender">
                                 <option>Masculino</option>
                                 <option>Femenino</option>
                                 <option>Otro</option>
@@ -84,6 +91,7 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="modal-footer">
                     <button class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
                     <button class="btn btn-primary" (click)="guardar()">Guardar</button>
