@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+.sidebar {
+    width: 60px;
+    transition: width 0.3s;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .sidebar:hover {
+    width: 250px;
+  }
+  
+  .sidebar .menu-text {
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+    white-space: nowrap;
+  }
+  
+  .sidebar:hover .menu-text {
+    opacity: 1;
+  }
+  

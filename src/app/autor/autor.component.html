@@ -1,0 +1,94 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Autores</h4>
+        <button class="btn btn-primary" (click)="abrirModal()">+ Nuevo Autor</button>
+    </div>
+
+    <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Buscar autor por nombre..." [(ngModel)]="searchTerm"
+            (keyup.enter)="cargarAutores()" />
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Género</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let autor of autores">
+
+                    <td>{{ autor?.id }}</td>
+                    <td>{{ autor?.name }}</td>
+                    <td>{{ autor?.gender }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info me-2" (click)="abrirModal(autor)">Editar</button>
+                        <button class="btn btn-sm btn-danger" (click)="eliminar(autor.id)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    <nav *ngIf="lastPage > 1">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="cargarAutores(currentPage - 1)">Anterior</a>
+            </li>
+
+            <li class="page-item pointer" *ngFor="let pagina of paginas()" [class.active]="pagina == currentPage">
+                <a class="page-link" (click)="cargarAutores(pagina)">
+                  {{ pagina }}
+                </a>
+              </li>
+
+            <li class="page-item" [class.disabled]="currentPage === lastPage">
+                <a class="page-link" (click)="cargarAutores(currentPage + 1)">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <!-- Modal -->
+    <div class="modal" tabindex="-1" [ngClass]="{ 'd-block': showModal }" style="background: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{ selectedAutor?.id ? 'Editar Autor' : 'Nuevo Autor' }}
+                    </h5>
+                    <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" id="name" class="form-control" [(ngModel)]="selectedAutor!.name"
+                                name="name" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Género</label>
+                            <select id="gender" class="form-control" [(ngModel)]="selectedAutor!.gender" name="gender">
+                                <option>Masculino</option>
+                                <option>Femenino</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+                    <button class="btn btn-primary" (click)="guardar()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
