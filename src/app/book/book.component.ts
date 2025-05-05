@@ -39,7 +39,7 @@ export class BookComponent implements OnInit {
       title: '',
       description: '',
       year: '',
-      publisher: '',
+      publisher: false,
       date: '',
       author_id: 0
     };

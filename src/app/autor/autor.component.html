@@ -2,8 +2,8 @@
     <div class="row mb-3">
         <div class="col-md-5 d-flex gap-2">
             <label class="mt-2" for="">Buscar: </label>
-            <input type="text" class="col form-control" placeholder="Buscar autor por nombre..." [(ngModel)]="searchTerm"
-            (keyup.enter)="cargarAutores()" />
+            <input type="text" class="col form-control" placeholder="Buscar autor por nombre..."
+                [(ngModel)]="searchTerm" (keyup.enter)="cargarAutores()" />
         </div>
         <div class="col-md-5"></div>
         <div class="col-md-2">
@@ -72,22 +72,27 @@
                     </h5>
                     <button type="button" class="btn-close" (click)="cerrarModal()"></button>
                 </div>
-                <!-- Mostrar solo si selectedAutor no es null -->
+
                 <div class="modal-body" *ngIf="selectedAutor">
                     <form>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nombre</label>
-                            <input type="text" id="name" class="form-control" [(ngModel)]="selectedAutor.name"
-                                name="name" />
+                        <div class="row mb-3">
+                            <label for="name" class="form-label col-4">Nombre</label>
+                            <div class="col-8">
+                                <input type="text" id="name" class="form-control" [(ngModel)]="selectedAutor.name"
+                                    name="name" />
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="gender" class="form-label">Género</label>
-                            <select id="gender" class="form-control" [(ngModel)]="selectedAutor.gender" name="gender">
-                                <option>Masculino</option>
-                                <option>Femenino</option>
-                                <option>Otro</option>
-                            </select>
+                        <div class="row mb-3">
+                            <label for="gender" class="form-label col-4">Género</label>
+                            <div class="col-8">
+                                <select id="gender" class="form-control" [(ngModel)]="selectedAutor.gender"
+                                    name="gender">
+                                    <option>Masculino</option>
+                                    <option>Femenino</option>
+                                    <option>Otro</option>
+                                </select>
+                            </div>
                         </div>
                     </form>
                 </div>

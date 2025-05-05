@@ -1,6 +1,5 @@
 <div class="container-fluid mt-4">
 
-    <!-- Buscador y botón -->
     <div class="row justify-content-between mb-3">
 
         <div class="col-md-5 d-flex gap-2">
@@ -14,7 +13,6 @@
         </div>
     </div>
 
-    <!-- Tabla de libros -->
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead class="thead-dark">
@@ -23,7 +21,7 @@
                     <th>Título</th>
                     <th>Descripción</th>
                     <th>Año</th>
-                    <th>Editorial</th>
+                    <th>Publicado</th>
                     <th>Fecha</th>
                     <th>Autor</th>
                     <th>Acciones</th>
@@ -35,8 +33,8 @@
                     <td>{{ libro.title }}</td>
                     <td>{{ libro.description }}</td>
                     <td>{{ libro.year }}</td>
-                    <td>{{ libro.publisher }}</td>
-                    <td>{{ libro.date }}</td>
+                    <td> {{ libro.publisher ? 'Sí' : 'No' }}</td>
+                    <td>{{ libro.updated_at | date: 'dd/MM/yyyy' }}</td>
                     <td>{{ libro.author?.name }}</td>
                     <td>
                         <button class="btn btn-sm btn-warning me-1" (click)="abrirModal(libro)">
@@ -82,49 +80,50 @@
 
                 <div class="modal-body">
                     <form>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Título</label>
-                            <input type="text" id="title" class="form-control" [(ngModel)]="selectedBook.title"
-                                name="title">
+                        <div class="form-group mb-3 row">
+                            <label for="title" class="form-label col-3">Título</label>
+                            <div class="col-9">
+                                <input type="text" id="title" class="form-control col-7"
+                                    [(ngModel)]="selectedBook.title" name="title">
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Descripción</label>
-                            <textarea id="description" class="form-control" [(ngModel)]="selectedBook.description"
-                                name="description"></textarea>
+                        <div class="form-group mb-3 row">
+                            <label for="description" class="form-label col-3">Descripción</label>
+                            <div class="col-9">
+                                <textarea id="description" class="form-control" [(ngModel)]="selectedBook.description"
+                                    name="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 row">
+                            <label for="author_id" class="form-label col-3">Autor</label>
+                            <div class="col-6">
+                                <ng-select class="form-control custom-ng-select" [items]="autores" bindLabel="name"
+                                    bindValue="id" [(ngModel)]="selectedBook.author_id" [searchable]="true"
+                                    name="author_id">
+                                </ng-select>
+                            </div>
+                            <button class="btn btn-primary col-3">Nuevo Autor</button>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="year" class="form-label">Año</label>
-                            <input type="text" id="year" class="form-control" [(ngModel)]="selectedBook.year"
-                                name="year">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="publisher" class="form-label">Editorial</label>
-                            <input type="text" id="publisher" class="form-control" [(ngModel)]="selectedBook.publisher"
-                                name="publisher">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="date" class="form-label">Fecha</label>
-                            <input type="date" id="date" class="form-control" [(ngModel)]="selectedBook.date"
-                                name="date">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="author_id" class="form-label">Autor</label>
-                            <select id="author_id" class="form-control" [(ngModel)]="selectedBook.author_id"
-                                name="author_id">
-                                <option *ngFor="let autor of autores" [value]="autor.id">{{ autor.name }}</option>
-                            </select>
+                        <div class="mb-3 row">
+                            <label for="publisher" class="form-label col-3">Publicado</label>
+                            <div class="col-3">
+                                <input type="checkbox" id="publisher" class="form-check-input"
+                                    [(ngModel)]="selectedBook.publisher" name="publisher">
+                            </div>
+                            <label for="year" class="form-label col-1">Año</label>
+                            <div class="col-5">
+                                <input type="text" id="year" class="form-control" [(ngModel)]="selectedBook.year"
+                                    name="year">
+                            </div>
                         </div>
                     </form>
                 </div>
 
-                <div class="modal-footer">
+                <div class="modal-footer d-flex justify-content-around">
+                    <button class="btn btn-primary" (click)="guardar()">Aceptar</button>
                     <button class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
-                    <button class="btn btn-primary" (click)="guardar()">Guardar</button>
                 </div>
 
             </div>

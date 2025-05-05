@@ -5,7 +5,7 @@ export interface Book {
   title: string;
   description: string;
   year: string;
-  publisher: string;
+  publisher: boolean;
   date: string;
   author_id: number;
   created_at?: string;

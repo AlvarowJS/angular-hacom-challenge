@@ -2,18 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Autor } from './autor.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutorService {
-  private apiUrl = 'http://161.132.37.212:82/api/authors';
+  private apiUrl = `${environment.apiBaseUrl}/authors`;
 
   constructor(private http: HttpClient) {}
 
   getAutores(page = 1, search = ''): Observable<any> {
     let params = new HttpParams().set('page', page.toString());
-    if (search) params = params.set('search', search);
+    if (search) {
+      params = params.set('search', search);
+    }
     return this.http.get<any>(this.apiUrl, { params });
   }
 

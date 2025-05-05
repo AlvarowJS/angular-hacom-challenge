@@ -1,1 +1,9 @@
-<div echarts [options]="chartOption" class="chart" style="height: 400px;"></div>
+<div class="row mt-4">
+    <div class="col-8">
+        <div echarts [options]="barChartOption" class="chart" style="height: 400px;"></div>
+    </div>
+    <div class="col-4">
+        <div echarts [options]="publishedChartOption" class="chart"></div>
+        <div echarts [options]="genderChartOption" class="chart"></div>      
+    </div>
+</div>

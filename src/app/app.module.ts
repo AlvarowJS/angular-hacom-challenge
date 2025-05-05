@@ -10,6 +10,8 @@ import { AutorComponent } from './autor/autor.component';
 import { BookComponent } from './book/book.component';
 import { HeaderComponent } from './header/header.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -27,6 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,    
     AppRoutingModule,
     FormsModule,
+    NgSelectModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     })
